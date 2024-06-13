@@ -14,15 +14,16 @@ def get_moved_board(move, board):
 
 def alpha_beta_pruning_search_alg(board, eval_function, depth=3, is_maximizing=True, alpha=float('-inf'), beta=float('inf')):
     game_ended = board.is_checkmate() or board.is_stalemate(
-    ) or board.is_insufficient_material()
+    ) or board.is_insufficient_material() or board.is_seventyfive_moves() or board.is_fivefold_repetition() or board.is_variant_draw()
 
     if depth == 0 or game_ended:
         return (None, eval_function(board))
 
+    best_move = None
     if is_maximizing:
         max_child_eval = float('-inf')
         for child_move in board.legal_moves:
-            best_child_move, eval = alpha_beta_pruning_search_alg(
+            _, eval = alpha_beta_pruning_search_alg(
                 get_moved_board(child_move, board), eval_function, depth-1, not is_maximizing, alpha, beta)
             if eval > max_child_eval:
                 max_child_eval = eval
@@ -34,7 +35,7 @@ def alpha_beta_pruning_search_alg(board, eval_function, depth=3, is_maximizing=T
     else:
         min_child_eval = float('inf')
         for child_move in board.legal_moves:
-            best_child_move, eval = alpha_beta_pruning_search_alg(get_moved_board(
+            _, eval = alpha_beta_pruning_search_alg(get_moved_board(
                 child_move, board), eval_function, depth-1, not is_maximizing, alpha, beta)
             if eval < min_child_eval:
                 min_child_eval = eval
