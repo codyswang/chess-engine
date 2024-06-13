@@ -14,7 +14,7 @@ def get_moved_board(move, board):
 
 def alpha_beta_pruning_search_alg(board, eval_function, depth=3, is_maximizing=True, alpha=float('-inf'), beta=float('inf')):
     game_ended = board.is_checkmate() or board.is_stalemate(
-    ) or board.is_insufficient_material()
+    ) or board.is_insufficient_material() or board.is_seventyfive_moves() or board.is_fivefold_repetition() or board.is_variant_draw()
 
     if depth == 0 or game_ended:
         return (None, eval_function(board))
