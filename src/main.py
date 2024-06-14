@@ -1,6 +1,9 @@
+from time import sleep
 from pathlib import Path
 import chess
 import chess.engine
+from chessboard import display
+import chess.svg
 import engine
 
 def main():
@@ -9,9 +12,8 @@ def main():
 
 	board = chess.Board()
 	while not board.is_game_over():
-		result = engine.play(board, chess.engine.Limit(time=0.1))
+		result = engine.play(board, chess.engine.Limit(time=30))
 		board.push(result.move)
-	
 	engine.quit()
 
 if __name__ == "__main__":

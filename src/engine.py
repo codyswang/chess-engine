@@ -1,6 +1,7 @@
 from collections import deque
 import logging
 import chess
+import search
 logger = logging.getLogger(__name__)
 
 class Engine:
@@ -60,11 +61,16 @@ class Engine:
             raise ValueError
 
         while args:
-            move = chess.Move.from_uci(args.popleft())
-            self.board.push(move)
+            uci_move = args.popleft()
+            if uci_move != "moves":
+                move = chess.Move.from_uci(uci_move)
+                self.board.push(move)
 
     def go(self, args):
-        pass
+        with open("log.txt", mode="a+", encoding="utf-8") as f:
+            f.write(f"{self.board.turn == chess.WHITE}\n")
+        move, eval = search.search(self.board, search.naive_eval_function, search.alpha_beta_pruning_search_alg, self.board.turn == chess.WHITE)
+        print(f"bestmove {move.uci()}")
 
     def stop(self, args):
         pass
@@ -75,7 +81,7 @@ class Engine:
     def quit(self, args):
         pass
 	
-    def play(self):
+    def run(self):
         while True:
             command = input()
             args = deque(command.split())
@@ -87,4 +93,4 @@ class Engine:
 
 if __name__ == "__main__":
     engine = Engine()
-    engine.play()
+    engine.run()

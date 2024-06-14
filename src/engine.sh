@@ -1,2 +1,2 @@
 #! /bin/bash
-python engine.py
+python3 engine.py
