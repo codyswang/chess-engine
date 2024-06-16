@@ -2,8 +2,8 @@
 import chess
 
 
-def search(board, eval_function, search_alg):
-    return search_alg(board, eval_function)
+def search(board, eval_function, search_alg, is_white_player):
+    return search_alg(board, eval_function, 3, is_white_player)
 
 
 def get_moved_board(move, board):
@@ -70,5 +70,8 @@ def naive_eval_function(board):
     return eval_score
 
 
-board = chess.Board()
-print(search(board, naive_eval_function, alpha_beta_pruning_search_alg))
+if __name__ == "__main__":
+    board = chess.Board()
+    move, _ = search(board, naive_eval_function,
+                     alpha_beta_pruning_search_alg, True)
+    print(move.uci())
